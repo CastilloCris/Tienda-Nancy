@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Tienda Nancy</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <h2>Tienda Nancy</h2>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="contacto.html">Contacto</a>
+        <button onclick="toggleCart()" class="cart-icon-btn" title="Ver carrito">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </button>
+    </nav>
+    <button id="tdm" class="theme-toggle" aria-label="Cambiar tema" aria-pressed="true">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb"></span>
+        </span>
+    </button>
+</header>
+
+<!-- ===== SECCIÓN DE CATÁLOGO ===== -->
+<section class="main-content">
+    <h1 class="section-title">Nuestros Productos</h1>
+
+    <!-- Filtros -->
+    <div class="filtros">
+        <div class="filtro-grupo">
+            <strong>Público</strong>
+            <label><input type="checkbox" value="mujer"> Mujer</label>
+            <label><input type="checkbox" value="hombre"> Hombre</label>
+            <label><input type="checkbox" value="niño"> Niño</label>
+        </div>
+
+        <div class="filtro-grupo">
+            <strong>Categoría</strong>
+            <label><input type="checkbox" value="remeras"> Remeras</label>
+            <label><input type="checkbox" value="pantalones"> Pantalones</label>
+            <label><input type="checkbox" value="buzos"> Buzos</label>
+        </div>
+    </div>
+
+    <!-- Grid de Productos -->
+    <div id="contenedorProductos" class="productos"></div>
+</section>
+
+<!-- ===== CARRITO MODAL ===== -->
+<div id="cart-modal" class="cart-modal">
+    <div class="cart-modal-content">
+        <div class="cart-header">
+            <h2>Tu Pedido</h2>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items-container" class="cart-items">
+            <!-- Items del carrito aquí -->
+        </div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>Total:</span>
+                <strong id="cart-total-price">$0</strong>
+            </div>
+            <button class="btn-whatsapp" onclick="sendWhatsApp()">
+                <i class="fab fa-whatsapp"></i> Finalizar Pedido
+            </button>
+            <button class="btn-clear" onclick="clearCart()">Vaciar Carrito</button>
+        </div>
+    </div>
+</div>
+
+<!-- Contenedor para notificaciones (toast) -->
+<div id="toast-container"></div>
+
+<!-- ===== FLOTANTE WHATSAPP ===== -->
+<a class="whatsapp-float" href="https://wa.me/549XXXXXXXXXX" title="Contactar por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ===== FOOTER ===== -->
+<footer>© 2026 - Tienda Nancy - Ropa para toda la familia</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="Js/main.js"></script>
+<script src="Js/catalogo.js"></script>
+</body>
+</html>

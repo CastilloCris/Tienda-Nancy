@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Tienda Nancy</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-forms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            color: var(--color-text);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: all var(--transition-fast);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .preview-producto {
+            background: var(--bg-surface);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-elegant);
+            text-align: center;
+        }
+
+        .preview-producto img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+        }
+
+        .preview-producto h4 {
+            color: var(--color-primary);
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .preview-producto p {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .admin-producto-item {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all var(--transition-normal);
+        }
+
+        .admin-producto-item:hover {
+            box-shadow: var(--shadow-deep);
+            border-color: var(--color-accent);
+        }
+
+        .admin-producto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .admin-producto-header h4 {
+            color: var(--color-primary);
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .admin-producto-header p {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .admin-producto-fields {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .admin-producto-fields input,
+        .admin-producto-fields select,
+        .admin-producto-fields textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-surface);
+            color: var(--color-text);
+            font-size: 0.9rem;
+        }
+
+        .admin-producto-fields textarea {
+            grid-column: 1 / -1;
+            min-height: 60px;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-update,
+        .btn-delete {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-update {
+            background: var(--color-primary);
+            color: white;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-update:hover {
+            background: var(--color-accent);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-box {
+            background: var(--bg-surface);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-deep);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-box h3 {
+            color: var(--color-primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            color: var(--color-text);
+            font-size: 1rem;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .login-box .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-forms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-producto-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+        <h3><i class="fas fa-lock"></i> Acceso Admin</h3>
+        <input id="adminUser" type="text" placeholder="Usuario" autocomplete="off">
+        <input id="adminPass" type="password" placeholder="Contraseña" autocomplete="off">
+        <button id="loginBtn" class="btn"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
+    </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <h2>Tienda Nancy</h2>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+    <button id="tdm" class="theme-toggle" aria-label="Cambiar tema" aria-pressed="true">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb"></span>
+        </span>
+    </button>
+</header>
+
+<!-- ===== PANEL ADMIN ===== -->
+<section class="main-content" id="adminContainer" style="display: none;">
+    <h1 class="section-title">Panel de Administración</h1>
+
+    <!-- Sección para cargar nuevos productos -->
+    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; margin-bottom: 40px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+        <h2 style="color: var(--color-primary); margin-bottom: 30px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+            <i class="fas fa-plus-circle"></i> Agregar Nuevo Producto
+        </h2>
+
+        <div class="admin-forms-grid">
+            <!-- Formulario -->
+            <div>
+                <form id="formProducto" onsubmit="event.preventDefault(); guardar();">
+                    <div class="form-group">
+                        <label for="nombre"><i class="fas fa-tag"></i> Nombre del Producto</label>
+                        <input id="nombre" type="text" placeholder="Ej: Remera Básica" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio"><i class="fas fa-dollar-sign"></i> Precio ($)</label>
+                        <input id="precio" type="number" placeholder="Ej: 5000" min="0" step="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publico"><i class="fas fa-users"></i> Público Objetivo</label>
+                        <select id="publico" required>
+                            <option value="" disabled selected>Seleccionar...</option>
+                            <option value="hombre">👨 Hombre</option>
+                            <option value="mujer">👩 Mujer</option>
+                            <option value="niño">👧 Niño</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria"><i class="fas fa-list"></i> Categoría</label>
+                        <select id="categoria" required>
+                            <option value="" disabled selected>Seleccionar...</option>
+                            <option value="remeras">👕 Remeras</option>
+                            <option value="pantalones">👖 Pantalones</option>
+                            <option value="buzos">🧥 Buzos</option>
+                            <option value="calzado">👟 Calzado</option>
+                            <option value="accesorios">⌚ Accesorios</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion"><i class="fas fa-pen"></i> Descripción</label>
+                        <textarea id="descripcion" placeholder="Descripción breve del producto..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imagenes"><i class="fas fa-images"></i> URLs de Imágenes</label>
+                        <textarea id="imagenes" placeholder="https://ejemplo.com/foto1.jpg, https://ejemplo.com/foto2.jpg" required></textarea>
+                        <small style="color: var(--color-muted); display: block; margin-top: 5px;">Separa múltiples URLs con comas</small>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">
+                        <i class="fas fa-plus"></i> Crear Producto
+                    </button>
+                </form>
+            </div>
+
+            <!-- Vista Previa -->
+            <div>
+                <h3 style="color: var(--color-primary); margin-bottom: 15px; font-size: 1.2rem;">
+                    <i class="fas fa-eye"></i> Vista Previa
+                </h3>
+                <div class="preview-producto">
+                    <img id="previewImg" src="https://via.placeholder.com/300x300?text=Sin+Imagen" alt="Vista previa">
+                    <div id="previewMiniaturas" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                    <h4 id="previewTitulo">Nombre del Producto</h4>
+                    <p id="previewPrecio">$0</p>
+                    <small style="color: var(--color-muted); display: block; margin-top: 10px;">Se actualiza en tiempo real</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección para administrar productos existentes -->
+    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+        <h2 style="color: var(--color-primary); margin-bottom: 25px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+            <i class="fas fa-box"></i> Administrar Catálogo
+        </h2>
+        <div id="adminLista" style="display: grid; gap: 20px;"></div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>© 2026 - Tienda Nancy - Panel Administrativo</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="Js/main.js"></script>
+<script src="Js/admin.js"></script>
+
+</body>
+</html>
