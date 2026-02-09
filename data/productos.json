@@ -1,12 +1,1 @@
-[
-  {
-    "nombre": "Mochila de hombre",
-    "precio": 15000,
-    "publico": "hombre",
-    "categoria": "accesorios",
-    "descripcion": "Mochila reforzada para hombre",
-    "imagenes": [
-      "https://images-na.ssl-images-amazon.com/images/I/81NnkbhrHYL._AC_SL1500_.jpg"
-    ]
-  }
-]
+[]
