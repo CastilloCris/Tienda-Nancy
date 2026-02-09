@@ -1,42 +1,32 @@
 [
   {
-    "nombre": "Remera Básica Hombre",
-    "precio": 8500,
-    "publico": "hombre",
-    "categoria": "remeras",
-    "imagenes": [
-      "img/productos/remera1.jpg",
-      "img/productos/remera2.jpg"
-    ]
-  },
-  {
-    "nombre": "Jean Mujer",
-    "precio": 14500,
-    "publico": "mujer",
-    "categoria": "pantalones",
-    "imagenes": [
-      "img/productos/jean1.jpg",
-      "img/productos/jean2.jpg"
-    ]
-  },
-  {
-    "nombre": "Remera básica mujer",
-    "precio": 12000,
+    "nombre": "camiseta de River",
+    "precio": 15000,
     "publico": "mujer",
     "categoria": "remeras",
+    "descripcion": "Camiseta River 2026",
     "imagenes": [
-      "img/productos/remera1.jpg",
-      "img/productos/remera2.jpg"
+      "https://www.futbolemotion.com/imagesarticulos/264909/750/camiseta-adidas-river-plate-primera-equipacion-authentic-2025-2026-white-team-power-red-4.webp"
     ]
   },
   {
-    "nombre": "Buzo hombre",
-    "precio": 18000,
+    "nombre": "Buso  para hombre Canguro Liso",
+    "precio": 25000,
     "publico": "hombre",
     "categoria": "buzos",
+    "descripcion": "Canguro liso para hombres",
     "imagenes": [
-      "img/productos/buzo1.jpg",
-      "img/productos/buzo2.jpg"
+      "https://con-actitud.com.ar/wp-content/uploads/2021/04/0-03-1295x1536.jpg"
+    ]
+  },
+  {
+    "nombre": "Mochila de hombre",
+    "precio": 15000,
+    "publico": "hombre",
+    "categoria": "accesorios",
+    "descripcion": "Mochila reforzada para hombre",
+    "imagenes": [
+      "https://images-na.ssl-images-amazon.com/images/I/81NnkbhrHYL._AC_SL1500_.jpg"
     ]
   }
 ]
