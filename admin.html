@@ -286,6 +286,38 @@
 <section class="main-content" id="adminContainer" style="display: none;">
     <h1 class="section-title">Panel de Administración</h1>
 
+    <!-- Sección Configuración GitHub -->
+    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; margin-bottom: 40px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+        <h2 style="color: var(--color-primary); margin-bottom: 20px; font-size: 1.5rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 10px;">
+            <i class="fab fa-github"></i> Configuración de GitHub
+        </h2>
+        <p style="margin-bottom: 20px; color: var(--color-text);">
+            Configura el repositorio para guardar los cambios directamente en GitHub. <br>
+            <small style="color: var(--color-muted);">El token se guarda localmente en tu navegador.</small>
+        </p>
+        <div class="admin-forms-grid" style="margin-bottom: 0;">
+            <div class="form-group">
+                <label>Usuario / Organización</label>
+                <input type="text" id="gh-owner" placeholder="Ej: usuario123">
+            </div>
+            <div class="form-group">
+                <label>Nombre del Repositorio</label>
+                <input type="text" id="gh-repo" placeholder="Ej: tienda-nancy">
+            </div>
+            <div class="form-group">
+                <label>Ruta del Archivo</label>
+                <input type="text" id="gh-path" value="data/productos.json">
+            </div>
+            <div class="form-group">
+                <label>Personal Access Token</label>
+                <input type="password" id="gh-token" placeholder="ghp_...">
+            </div>
+        </div>
+        <button onclick="guardarConfigGitHub()" class="btn-update" style="margin-top: 20px;">
+            <i class="fas fa-save"></i> Guardar Configuración
+        </button>
+    </div>
+
     <!-- Sección para cargar nuevos productos -->
     <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; margin-bottom: 40px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
         <h2 style="color: var(--color-primary); margin-bottom: 30px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
@@ -375,6 +407,7 @@
 
 <!-- ===== SCRIPTS ===== -->
 <script src="Js/main.js"></script>
+<script src="Js/admin_github_helper.js"></script>
 <script src="Js/admin.js"></script>
 
 </body>

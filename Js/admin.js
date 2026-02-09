@@ -127,7 +127,7 @@ function renderAdminLista() {
         const bU = row.querySelector(`#btn-update-${i}`);
         const bD = row.querySelector(`#btn-delete-${i}`);
         
-        bU.addEventListener("click", () => {
+        bU.addEventListener("click", async () => {
             const nuevoNombre = row.querySelector(`#edit-nombre-${i}`).value.trim();
             const nuevoPrecio = parseFloat(row.querySelector(`#edit-precio-${i}`).value.trim());
             const nuevoPublico = row.querySelector(`#edit-publico-${i}`).value.trim();
@@ -153,14 +153,16 @@ function renderAdminLista() {
             productosData[i].descripcion = nuevaDescripcion;
             
             localStorage.setItem("productos", JSON.stringify(productosData));
+            await saveToGitHub(productosData);
             showToast("✓ Producto actualizado correctamente");
             renderAdminLista();
         });
         
-        bD.addEventListener("click", () => {
+        bD.addEventListener("click", async () => {
             if (confirm(`¿Eliminar "${p.nombre}"?`)) {
                 productosData.splice(i, 1);
                 localStorage.setItem("productos", JSON.stringify(productosData));
+                await saveToGitHub(productosData);
                 showToast("✓ Producto eliminado");
                 renderAdminLista();
             }
@@ -208,7 +210,7 @@ function actualizarPreview() {
     }
 }
 
-function guardar() {
+async function guardar() {
     // Validar campos
     for (const key in inputs) {
         if (!inputs[key].value.trim()) {
@@ -244,6 +246,9 @@ function guardar() {
         arr.push(producto);
         localStorage.setItem("productos", JSON.stringify(arr));
         productosData = arr;
+        
+        // Guardar en GitHub
+        await saveToGitHub(productosData);
         
         // Actualizar lista y limpiar formulario
         renderAdminLista();
