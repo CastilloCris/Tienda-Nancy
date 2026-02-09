@@ -35,10 +35,12 @@ async function saveToGitHub(newContent) {
     
     try {
         // 1. Get current SHA
+        console.log(`Intentando conectar a: ${apiUrl}`);
         const getRes = await fetch(apiUrl, {
             headers: {
-                "Authorization": `token ${config.token}`,
-                "Accept": "application/vnd.github.v3+json"
+                "Authorization": `Bearer ${config.token}`,
+                "Accept": "application/vnd.github.v3+json",
+                "X-GitHub-Api-Version": "2022-11-28"
             }
         });
         
@@ -46,15 +48,25 @@ async function saveToGitHub(newContent) {
         if (getRes.ok) {
             const getData = await getRes.json();
             sha = getData.sha;
+            console.log("SHA actual obtenido:", sha);
+        } else if (getRes.status === 404) {
+            console.log("El archivo no existe, se creará uno nuevo.");
+        } else {
+            console.error("Error al obtener SHA:", getRes.status, getRes.statusText);
+            const errBody = await getRes.text();
+            console.error("Detalle error:", errBody);
+            showToast(`❌ Error GitHub (Get SHA): ${getRes.status}`);
+            return false;
         }
 
         // 2. Update file
         const putRes = await fetch(apiUrl, {
             method: "PUT",
             headers: {
-                "Authorization": `token ${config.token}`,
+                "Authorization": `Bearer ${config.token}`,
                 "Accept": "application/vnd.github.v3+json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-GitHub-Api-Version": "2022-11-28"
             },
             body: JSON.stringify({
                 message: "Update products via Admin Panel",
@@ -68,12 +80,13 @@ async function saveToGitHub(newContent) {
             return true;
         } else {
             const err = await putRes.json();
+            console.error("Error al guardar:", err);
             showToast(`❌ Error GitHub: ${err.message}`);
             return false;
         }
     } catch (e) {
-        console.error(e);
-        showToast("❌ Error de conexión con GitHub");
+        console.error("Excepción en saveToGitHub:", e);
+        showToast(`❌ Error de conexión: ${e.message}`);
         return false;
     }
 }
