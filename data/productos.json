@@ -1,15 +1,5 @@
 [
   {
-    "nombre": "Buso  para hombre Canguro Liso",
-    "precio": 25000,
-    "publico": "hombre",
-    "categoria": "buzos",
-    "descripcion": "Canguro liso para hombres",
-    "imagenes": [
-      "https://con-actitud.com.ar/wp-content/uploads/2021/04/0-03-1295x1536.jpg"
-    ]
-  },
-  {
     "nombre": "Mochila de hombre",
     "precio": 15000,
     "publico": "hombre",
