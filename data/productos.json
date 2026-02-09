@@ -1,15 +1,5 @@
 [
   {
-    "nombre": "camiseta de River",
-    "precio": 15000,
-    "publico": "mujer",
-    "categoria": "remeras",
-    "descripcion": "Camiseta River 2026",
-    "imagenes": [
-      "https://www.futbolemotion.com/imagesarticulos/264909/750/camiseta-adidas-river-plate-primera-equipacion-authentic-2025-2026-white-team-power-red-4.webp"
-    ]
-  },
-  {
     "nombre": "Buso  para hombre Canguro Liso",
     "precio": 25000,
     "publico": "hombre",
