@@ -1,15 +1,5 @@
 [
   {
-    "nombre": "Remera Básica Hombre",
-    "precio": 15000,
-    "publico": "hombre",
-    "categoria": "remeras",
-    "descripcion": "Remera de hombre",
-    "imagenes": [
-      "https://con-actitud.com.ar/wp-content/uploads/2021/05/0-40-scaled.jpg"
-    ]
-  },
-  {
     "nombre": "Camiseta de Boca",
     "precio": 25000,
     "publico": "hombre",
