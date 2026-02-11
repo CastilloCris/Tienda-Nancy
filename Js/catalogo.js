@@ -3,36 +3,34 @@ let productos = [];
 const contenedor = document.getElementById("contenedorProductos");
 const filtros = document.querySelectorAll(".filtro-grupo input");
 
-function cargarDesdeStorage() {
+async function cargarProductos() {
+    const url = `data/productos.json?v=${Date.now()}`;
+
     try {
-        const raw = localStorage.getItem("productos");
-        if (raw) {
-            const arr = JSON.parse(raw);
-            if (Array.isArray(arr)) {
-                productos = arr;
-                return true;
-            }
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
         }
-    } catch (e) {}
-    return false;
+
+        const data = await res.json();
+        productos = Array.isArray(data) ? data : [];
+        // Guardar SOLO como caché de respaldo
+        localStorage.setItem("productos_cache", JSON.stringify(productos));
+        console.log("Catálogo cargado desde JSON (Fuente de verdad)");
+    } catch (e) {
+        console.warn("Error al cargar JSON, usando fallback de caché:", e);
+        try {
+            const raw = localStorage.getItem("productos_cache");
+            const cache = raw ? JSON.parse(raw) : [];
+            productos = Array.isArray(cache) ? cache : [];
+        } catch {
+            productos = [];
+        }
+    }
+
+    mostrarProductos();
 }
 
-function cargarProductos() {
-    if (cargarDesdeStorage()) {
-        mostrarProductos();
-        return;
-    }
-    fetch("data/productos.json")
-        .then(res => res.json())
-        .then(data => {
-            productos = Array.isArray(data) ? data : [];
-            mostrarProductos();
-        })
-        .catch(() => {
-            productos = [];
-            mostrarProductos();
-        });
-}
 
 function mostrarProductos() {
     if (!contenedor) return;
@@ -101,12 +99,5 @@ function cambiarImagen(id, src) {
         img.src = src;
     }
 }
-
-window.addEventListener("storage", (e) => {
-    if (e.key === "productos") {
-        cargarDesdeStorage();
-        mostrarProductos();
-    }
-});
 
 document.addEventListener("DOMContentLoaded", cargarProductos);

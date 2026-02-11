@@ -37,6 +37,7 @@ async function saveToGitHub(newContent) {
         // 1. Get current SHA
         console.log(`Intentando conectar a: ${apiUrl}`);
         const getRes = await fetch(apiUrl, {
+            cache: 'no-store', // Evitar caché
             headers: {
                 "Authorization": `Bearer ${config.token}`,
                 "Accept": "application/vnd.github.v3+json",

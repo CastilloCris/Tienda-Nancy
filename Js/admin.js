@@ -49,29 +49,32 @@ if (loginBtn) {
 let productosData = [];
 
 function cargarProductosAdmin() {
-    try {
-        const raw = localStorage.getItem("productos");
-        if (raw) {
-            const arr = JSON.parse(raw);
-            if (Array.isArray(arr)) {
-                productosData = arr;
-                renderAdminLista();
-                return;
-            }
-        }
-    } catch (e) {}
-    fetch("data/productos.json")
-        .then(r => r.json())
-        .then(d => {
-            productosData = d;
-            localStorage.setItem("productos", JSON.stringify(productosData));
-            renderAdminLista();
-        })
-        .catch(() => {
-            productosData = [];
-            renderAdminLista();
-        });
+  const url = `data/productos.json?v=${Date.now()}`;
+
+  fetch(url, { cache: "no-store" })
+    .then(r => {
+      if (!r.ok) throw new Error("Error al cargar JSON");
+      return r.json();
+    })
+    .then(d => {
+      productosData = Array.isArray(d) ? d : [];
+      // Sincronizar caché local
+      localStorage.setItem("productos_cache", JSON.stringify(productosData));
+      console.log("Admin: Datos cargados desde JSON");
+      renderAdminLista();
+    })
+    .catch(err => {
+      console.warn("Admin: Falló fetch, usando fallback de caché", err);
+      try {
+        const raw = localStorage.getItem("productos_cache");
+        productosData = raw ? JSON.parse(raw) : [];
+      } catch {
+        productosData = [];
+      }
+      renderAdminLista();
+    });
 }
+
 
 function renderAdminLista() {
     if (!adminLista) return;
@@ -152,18 +155,39 @@ function renderAdminLista() {
             productosData[i].imagenes = nuevasImagenes.length ? nuevasImagenes : productosData[i].imagenes || [];
             productosData[i].descripcion = nuevaDescripcion;
             
-            localStorage.setItem("productos", JSON.stringify(productosData));
-            await saveToGitHub(productosData);
-            showToast("✓ Producto actualizado correctamente");
+            // Actualizar caché temporal para UI inmediata
+            localStorage.setItem("productos_cache", JSON.stringify(productosData));
+            
+            // Persistir en GitHub (Fuente de verdad)
+            const success = await saveToGitHub(productosData);
+            
+            if (success) {
+                localStorage.removeItem("productos_cache");
+                showToast("✓ Guardado y publicado en GitHub");
+            } else {
+                showToast("⚠️ Error al publicar, guardado solo localmente");
+            }
+            
             renderAdminLista();
         });
         
         bD.addEventListener("click", async () => {
             if (confirm(`¿Eliminar "${p.nombre}"?`)) {
                 productosData.splice(i, 1);
-                localStorage.setItem("productos", JSON.stringify(productosData));
-                await saveToGitHub(productosData);
-                showToast("✓ Producto eliminado");
+                
+                // Actualizar caché temporal
+                localStorage.setItem("productos_cache", JSON.stringify(productosData));
+                
+                // Persistir en GitHub
+                const success = await saveToGitHub(productosData);
+                
+                if (success) {
+                    localStorage.removeItem("productos_cache");
+                    showToast("✓ Eliminado y publicado en GitHub");
+                } else {
+                    showToast("⚠️ Error al publicar la eliminación");
+                }
+                
                 renderAdminLista();
             }
         });
@@ -234,32 +258,32 @@ async function guardar() {
     };
 
     try {
-        // Obtener productos actuales
-        const raw = localStorage.getItem("productos");
-        let arr = [];
-        if (raw) {
-            arr = JSON.parse(raw);
-            if (!Array.isArray(arr)) arr = [];
-        }
+        // Obtener productos actuales (priorizar productosData ya cargado)
+        if (!Array.isArray(productosData)) productosData = [];
         
         // Agregar nuevo producto
-        arr.push(producto);
-        localStorage.setItem("productos", JSON.stringify(arr));
-        productosData = arr;
+        productosData.push(producto);
         
-        // Guardar en GitHub
-        await saveToGitHub(productosData);
+        // Actualizar caché temporal para UI inmediata
+        localStorage.setItem("productos_cache", JSON.stringify(productosData));
+        
+        // Persistir en GitHub (Fuente de verdad)
+        const success = await saveToGitHub(productosData);
+        
+        if (success) {
+            localStorage.removeItem("productos_cache");
+            showToast(`✓ "${producto.nombre}" publicado en GitHub`);
+        } else {
+            showToast("⚠️ Guardado localmente, error al publicar");
+        }
         
         // Actualizar lista y limpiar formulario
         renderAdminLista();
         document.getElementById("formProducto").reset();
         actualizarPreview();
         
-        // Notificación de éxito
-        showToast(`✓ "${producto.nombre}" agregado al catálogo`);
-        
     } catch (e) {
-        showToast("❌ Error al guardar el producto");
+        showToast("❌ Error al procesar el producto");
         console.error(e);
     }
 }
