@@ -28,5 +28,15 @@
     "imagenes": [
       "https://i.pinimg.com/originals/92/1e/93/921e93d7a9cf44af2c94cf79e263f91c.jpg"
     ]
+  },
+  {
+    "nombre": "Remera Básica Mujer",
+    "precio": 6000,
+    "publico": "mujer",
+    "categoria": "remeras",
+    "descripcion": "remera  mujer",
+    "imagenes": [
+      "https://d368r8jqz0fwvm.cloudfront.net/26257-product_lg/remera-de-mujer-verena.jpg"
+    ]
   }
 ]
