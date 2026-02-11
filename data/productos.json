@@ -8,5 +8,15 @@
     "imagenes": [
       "https://con-actitud.com.ar/wp-content/uploads/2021/05/0-40-scaled.jpg"
     ]
+  },
+  {
+    "nombre": "Camiseta de Boca",
+    "precio": 25000,
+    "publico": "hombre",
+    "categoria": "remeras",
+    "descripcion": "Camiseta",
+    "imagenes": [
+      "https://cdn.awsli.com.br/2500x2500/2231/2231056/produto/237697700/boca-pepsi---site1-rvayr7voam.png"
+    ]
   }
 ]
