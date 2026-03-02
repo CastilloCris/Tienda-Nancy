@@ -309,6 +309,15 @@
       return data;
     }
 
+    async function deletePedidoSafe(pedidoId) {
+      const { data, error } = await sb.rpc("delete_order_safe", {
+        p_pedido_id: pedidoId,
+      });
+
+      if (error) throw error;
+      return data;
+    }
+
     function sumPedidosTotals(rows) {
       return (rows || []).reduce((acc, row) => acc + Number(row.total || 0), 0);
     }
@@ -709,6 +718,7 @@
             <select class="o-status">${orderStatusOptions(status)}</select>
             <button type="button" class="btn-update o-status-save">Actualizar estado</button>
             <button type="button" class="btn-update o-view-items">Ver items</button>
+            <button type="button" class="btn-delete o-delete-order"><i class="fas fa-trash"></i> Eliminar</button>
           </div>
         </div>
       `;
@@ -767,6 +777,7 @@
         const statusSelect = card.querySelector(".o-status");
         const btnSaveStatus = card.querySelector(".o-status-save");
         const btnViewItems = card.querySelector(".o-view-items");
+        const btnDeleteOrder = card.querySelector(".o-delete-order");
 
         if (btnSaveStatus && statusSelect) {
           btnSaveStatus.addEventListener("click", async () => {
@@ -796,6 +807,26 @@
             } catch (e) {
               console.error(e);
               pedidoDetalle.innerHTML = `<div style="color:#d32f2f;">Error cargando items: ${escapeHtml(e.message)}</div>`;
+            }
+          });
+        }
+
+        if (btnDeleteOrder) {
+          btnDeleteOrder.addEventListener("click", async () => {
+            const confirmed = confirm("Vas a eliminar este pedido y sus items. Si no estaba cancelado, se repondr\u00e1 stock antes de borrar. \u00bfConfirm\u00e1s?");
+            if (!confirmed) return;
+
+            try {
+              await deletePedidoSafe(pedidoId);
+              if (pedidoDetalle) {
+                pedidoDetalle.textContent = "Selecciona un pedido para ver sus items.";
+              }
+              alert("Pedido eliminado correctamente.");
+              await renderPedidos();
+              await cargarMetricasDashboard();
+            } catch (e) {
+              console.error(e);
+              alert("No se pudo eliminar el pedido. Intenta nuevamente.");
             }
           });
         }
