@@ -1,0 +1,781 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Tienda Nancy</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-forms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            color: var(--color-text);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: all var(--transition-fast);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .preview-producto {
+            background: var(--bg-surface);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-elegant);
+            text-align: center;
+        }
+
+        .preview-producto img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+        }
+
+        .preview-producto h4 {
+            color: var(--color-primary);
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .preview-producto p {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .admin-producto-item {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all var(--transition-normal);
+        }
+
+        .admin-producto-item:hover {
+            box-shadow: var(--shadow-deep);
+            border-color: var(--color-accent);
+        }
+
+        .admin-producto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .admin-producto-header h4 {
+            color: var(--color-primary);
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .admin-producto-header p {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .admin-producto-fields {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .admin-producto-fields input,
+        .admin-producto-fields select,
+        .admin-producto-fields textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-surface);
+            color: var(--color-text);
+            font-size: 0.9rem;
+        }
+
+        .admin-producto-fields textarea {
+            grid-column: 1 / -1;
+            min-height: 60px;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .dashboard-kpis {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .kpi-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            padding: 14px;
+        }
+
+        .kpi-card .kpi-label {
+            color: var(--color-muted);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .kpi-card .kpi-value {
+            color: var(--color-primary);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .dashboard-panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .dashboard-panel {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            padding: 14px;
+        }
+
+        .dashboard-panel h4 {
+            margin: 0 0 10px 0;
+            color: var(--color-primary);
+            font-size: 1rem;
+        }
+
+        .dashboard-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .dashboard-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.92rem;
+        }
+
+        .dashboard-row:last-child {
+            border-bottom: none;
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .admin-sidebar {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-elegant);
+            padding: 14px;
+            position: sticky;
+            top: 90px;
+        }
+
+        .admin-nav {
+            display: grid;
+            gap: 8px;
+        }
+
+        .admin-nav-btn {
+            width: 100%;
+            text-align: left;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-light);
+            color: var(--color-text);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .admin-nav-btn.active {
+            border-color: var(--color-accent);
+            background: color-mix(in srgb, var(--bg-light) 75%, var(--color-accent) 25%);
+            color: var(--color-primary);
+        }
+
+        .admin-main {
+            min-width: 0;
+        }
+
+        .admin-view {
+            display: none;
+        }
+
+        .admin-view.active {
+            display: block;
+        }
+
+        .admin-mobile-top {
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        .admin-sidebar-toggle {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-light);
+            color: var(--color-text);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .admin-sidebar-overlay {
+            display: none;
+        }
+
+        .order-item {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .order-item-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .order-item small {
+            color: var(--color-muted);
+        }
+
+        .order-status {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .order-detail-box {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            padding: 14px;
+            min-height: 120px;
+        }
+
+        .manual-sale-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .manual-sale-items {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            padding: 12px;
+        }
+
+        .manual-sale-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .manual-sale-row:last-child {
+            border-bottom: none;
+        }
+
+        .btn-update,
+        .btn-delete {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-update {
+            background: var(--color-primary);
+            color: white;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-update:hover {
+            background: var(--color-accent);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-box {
+            background: var(--bg-surface);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-deep);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-box h3 {
+            color: var(--color-primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-light);
+            color: var(--color-text);
+            font-size: 1rem;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .login-box .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-mobile-top {
+                display: block;
+            }
+
+            .admin-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: min(85vw, 280px);
+                border-radius: 0;
+                z-index: 10001;
+                transform: translateX(-100%);
+                transition: transform .25s ease;
+            }
+
+            .admin-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .admin-sidebar-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 10000;
+            }
+
+            .admin-sidebar-overlay.show {
+                display: block;
+            }
+
+            .admin-forms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-producto-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-buttons {
+                flex-direction: column;
+            }
+
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-kpis {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+
+            .manual-sale-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+        <h3><i class="fas fa-lock"></i> Acceso Admin</h3>
+        <input id="adminUser" type="text" placeholder="Email" autocomplete="off">
+        <input id="adminPass" type="password" placeholder="ContraseÃ±a" autocomplete="off">
+        <button id="loginBtn" class="btn"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
+    </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <h2>Tienda Nancy</h2>
+    <button class="menu-toggle" id="menuToggle">â˜°</button>
+    <nav id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+    <button id="tdm" class="theme-toggle" aria-label="Cambiar tema" aria-pressed="true">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb"></span>
+        </span>
+    </button>
+</header>
+
+
+
+
+    <section class="main-content" id="adminContainer" style="display: none;">
+        <div class="admin-layout">
+            <div id="adminSidebarOverlay" class="admin-sidebar-overlay"></div>
+
+            <aside id="adminSidebar" class="admin-sidebar">
+                <nav class="admin-nav">
+                    <button type="button" class="admin-nav-btn active" data-view="view-dashboard">Dashboard</button>
+                    <button type="button" class="admin-nav-btn" data-view="view-agregar">Agregar producto</button>
+                    <button type="button" class="admin-nav-btn" data-view="view-catalogo">Administrar catálogo</button>
+                    <button type="button" class="admin-nav-btn" data-view="view-pedidos">Pedidos</button>
+                    <button type="button" class="admin-nav-btn" data-view="view-venta-manual">Venta manual</button>
+                </nav>
+            </aside>
+
+            <main class="admin-main">
+                <div class="admin-mobile-top">
+                    <button id="adminSidebarToggle" class="admin-sidebar-toggle" aria-label="Abrir menú admin">☰ Secciones</button>
+                </div>
+
+                <section id="view-dashboard" class="admin-view active" aria-label="Vista Dashboard">
+                    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+                        <h2 style="color: var(--color-primary); margin-bottom: 25px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </h2>
+
+                        <div class="dashboard-kpis">
+                            <div class="kpi-card">
+                                <span class="kpi-label">Ventas hoy</span>
+                                <div id="kpiVentasHoy" class="kpi-value">—</div>
+                            </div>
+                            <div class="kpi-card">
+                                <span class="kpi-label">Ventas 7 días</span>
+                                <div id="kpiVentas7Dias" class="kpi-value">—</div>
+                            </div>
+                            <div class="kpi-card">
+                                <span class="kpi-label">Pendientes</span>
+                                <div id="kpiPendientes" class="kpi-value">—</div>
+                            </div>
+                            <div class="kpi-card">
+                                <span class="kpi-label">Stock bajo</span>
+                                <div id="kpiStockBajo" class="kpi-value">—</div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-panels">
+                            <div class="dashboard-panel">
+                                <h4>Top productos (30 días)</h4>
+                                <div id="topProductos30" class="dashboard-list">Sin datos</div>
+                            </div>
+                            <div class="dashboard-panel">
+                                <h4>Stock bajo (lista)</h4>
+                                <div id="stockBajoLista" class="dashboard-list">Sin datos</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-agregar" class="admin-view" aria-label="Vista Agregar producto">
+                    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+                        <h2 style="color: var(--color-primary); margin-bottom: 30px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+                            <i class="fas fa-plus-circle"></i> Agregar Nuevo Producto
+                        </h2>
+
+                        <div class="admin-forms-grid">
+                            <div>
+                                <form id="formProducto" onsubmit="event.preventDefault(); guardar();">
+                                    <div class="form-group">
+                                        <label for="nombre"><i class="fas fa-tag"></i> Nombre del Producto</label>
+                                        <input id="nombre" type="text" placeholder="Ej: Remera Básica" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="precio"><i class="fas fa-dollar-sign"></i> Precio ($)</label>
+                                        <input id="precio" type="number" placeholder="Ej: 5000" min="0" step="100" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="stock"><i class="fas fa-boxes"></i> Stock inicial</label>
+                                        <input id="stock" type="number" placeholder="Ej: 10" min="0" step="1" value="0" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="publico"><i class="fas fa-users"></i> Público Objetivo</label>
+                                        <select id="publico" required>
+                                            <option value="" disabled selected>Seleccionar...</option>
+                                            <option value="hombre">Hombre</option>
+                                            <option value="mujer">Mujer</option>
+                                            <option value="niño">Niño</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="categoria"><i class="fas fa-list"></i> Categoría</label>
+                                        <select id="categoria" required>
+                                            <option value="" disabled selected>Seleccionar...</option>
+                                            <option value="remeras">Remeras</option>
+                                            <option value="pantalones">Pantalones</option>
+                                            <option value="buzos">Buzos</option>
+                                            <option value="calzado">Calzado</option>
+                                            <option value="accesorios">Accesorios</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="descripcion"><i class="fas fa-pen"></i> Descripción</label>
+                                        <textarea id="descripcion" placeholder="Descripción breve del producto..."></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="imagenes"><i class="fas fa-images"></i> URLs de Imágenes</label>
+                                        <textarea id="imagenes" placeholder="https://ejemplo.com/foto1.jpg, https://ejemplo.com/foto2.jpg" required></textarea>
+                                        <small style="color: var(--color-muted); display: block; margin-top: 5px;">Separa múltiples URLs con comas</small>
+                                    </div>
+
+                                    <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">
+                                        <i class="fas fa-plus"></i> Crear Producto
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div>
+                                <h3 style="color: var(--color-primary); margin-bottom: 15px; font-size: 1.2rem;">
+                                    <i class="fas fa-eye"></i> Vista Previa
+                                </h3>
+                                <div class="preview-producto">
+                                    <img id="previewImg" src="https://placehold.co/300x300?text=Sin+Imagen" alt="Vista previa">
+                                    <div id="previewMiniaturas" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                                    <h4 id="previewTitulo">Nombre del Producto</h4>
+                                    <p id="previewPrecio">$0</p>
+                                    <small id="previewStock" style="color: var(--color-text); display: block; margin-top: 6px;">Stock: 0</small>
+                                    <small style="color: var(--color-muted); display: block; margin-top: 10px;">Se actualiza en tiempo real</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-catalogo" class="admin-view" aria-label="Vista Administrar catálogo">
+                    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+                        <h2 style="color: var(--color-primary); margin-bottom: 25px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+                            <i class="fas fa-box"></i> Administrar Catálogo
+                        </h2>
+                        <div id="adminLista" style="display: grid; gap: 20px;"></div>
+                    </div>
+                </section>
+
+                <section id="view-pedidos" class="admin-view" aria-label="Vista Pedidos">
+                    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+                        <h2 style="color: var(--color-primary); margin-bottom: 25px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+                            <i class="fas fa-receipt"></i> Pedidos
+                        </h2>
+                        <div class="orders-grid">
+                            <div>
+                                <div id="pedidosLista"></div>
+                            </div>
+                            <div>
+                                <div id="pedidoDetalle" class="order-detail-box">
+                                    Selecciona un pedido para ver sus items.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-venta-manual" class="admin-view" aria-label="Vista Venta manual">
+                    <div style="background: var(--bg-surface); padding: 30px; border-radius: 8px; box-shadow: var(--shadow-elegant); border: 1px solid var(--border-color);">
+                        <h2 style="color: var(--color-primary); margin-bottom: 25px; font-size: 1.8rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 15px;">
+                            <i class="fas fa-cash-register"></i> Venta manual
+                        </h2>
+
+                        <div class="manual-sale-grid">
+                            <div>
+                                <div class="form-group">
+                                    <label for="manualProductoSelect">Producto</label>
+                                    <select id="manualProductoSelect"></select>
+                                    <small id="manualProductoInfo" style="display:block; margin-top:6px; color: var(--color-muted);">Precio: $0 · Stock: 0</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="manualQty">Cantidad</label>
+                                    <input id="manualQty" type="number" min="1" step="1" value="1">
+                                </div>
+                                <button id="btnManualAgregarItem" type="button" class="btn" style="width:100%; margin-bottom:15px;">
+                                    Agregar al ticket
+                                </button>
+
+                                <div class="manual-sale-items">
+                                    <div id="manualItemsList">Sin items agregados.</div>
+                                    <div style="margin-top:10px; font-weight:700;">Total: <span id="manualTotal">$0</span></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="form-group">
+                                    <label for="manualPaymentMethod">Método de pago</label>
+                                    <select id="manualPaymentMethod">
+                                        <option value="efectivo">Efectivo</option>
+                                        <option value="transferencia">Transferencia</option>
+                                        <option value="tarjeta">Tarjeta</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="manualCustomerName">Cliente (opcional)</label>
+                                    <input id="manualCustomerName" type="text" placeholder="Nombre cliente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manualCustomerPhone">Teléfono (opcional)</label>
+                                    <input id="manualCustomerPhone" type="text" placeholder="Ej: 11...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manualNotes">Notas (opcional)</label>
+                                    <textarea id="manualNotes" placeholder="Observaciones de la venta..."></textarea>
+                                </div>
+
+                                <button id="btnRegistrarVentaManual" type="button" class="btn" style="width:100%;">
+                                    Registrar venta
+                                </button>
+                                <div id="manualSaleResult" style="margin-top:10px; color: var(--color-muted);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </section>
+
+<!-- ===== FOOTER ===== -->
+<footer>Â© 2026 - Tienda Nancy - Panel Administrativo</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="Js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="Js/supabaseClient.js"></script>
+<script src="Js/admin.js"></script>
+
+</body>
+</html>
+
+

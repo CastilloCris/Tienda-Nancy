@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tienda Nancy - Ropa para toda la familia</title>
+<link href="css/estilos.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="">
+<!-- ===== HEADER ===== -->
+<header class="header">
+<h2>Tienda Nancy</h2>
+<button class="menu-toggle" id="menuToggle">☰</button>
+<nav id="menu">
+<a href="index.html">Inicio</a>
+<a href="catalogo.html">Catálogo</a>
+<a href="contacto.html">Contacto</a>
+
+</nav><div class="header-actions"><button class="cart-icon-btn" onclick="toggleCart()" title="Ver carrito">
+<i class="fas fa-shopping-cart"></i>
+<span id="cart-count">0</span>
+</button><button aria-label="Cambiar tema" aria-pressed="true" class="theme-toggle" id="tdm">
+<span class="theme-toggle-track">
+<span class="theme-toggle-thumb"></span>
+</span>
+</button></div>
+
+</header>
+<!-- ===== HERO SECTION ===== -->
+<section class="hero hero-cover" style="background-image: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&amp;fit=crop&amp;w=1800&amp;q=80');">
+<div class="hero-content">
+<span class="hero-kicker">Coleccion 2026</span>
+<h1>Ropa con estilo para toda la familia</h1>
+<p>Calidad, confort y diseno en cada prenda. Vestite con actitud.</p>
+<div class="hero-actions">
+<a class="btn" href="catalogo.html">Ver Catalogo</a>
+<a class="btn btn-ghost" href="contacto.html">Consultar</a>
+</div><div class="hero-badges"><div class="badge"><i class="fas fa-sync-alt"></i><span>Cambios fáciles</span></div><div class="badge"><i class="fas fa-truck"></i><span>Envíos rápidos</span></div><div class="badge"><i class="fas fa-headset"></i><span>Atención por WhatsApp</span></div></div><div class="hero-chips"><a class="chip" href="catalogo.html?publico=mujer">Mujer</a><a class="chip" href="catalogo.html?publico=hombre">Hombre</a><a class="chip" href="catalogo.html?publico=ni%C3%B1o">Niños</a><a class="chip" href="catalogo.html?categoria=accesorios">Accesorios</a></div>
+</div>
+</section>
+<section class="section section-categories">
+<div class="container">
+<h2 class="section-title">Explorar por categoría</h2>
+<p class="section-subtitle">Encontrá rápido lo que buscás para cada integrante de la familia.</p>
+<div class="category-grid">
+<a class="category-card" href="catalogo.html?publico=mujer">
+<div class="category-meta">
+<h3>Mujer</h3><span>Ver prendas</span>
+</div>
+</a>
+<a class="category-card" href="catalogo.html?publico=hombre">
+<div class="category-meta">
+<h3>Hombre</h3><span>Ver prendas</span>
+</div>
+</a>
+<a class="category-card" href="catalogo.html?publico=ni%C3%B1o">
+<div class="category-meta">
+<h3>Niños</h3><span>Ver prendas</span>
+</div>
+</a>
+</div>
+</div>
+</section>
+<section class="section section-new">
+<div class="container">
+<div class="section-head">
+<h2 class="section-title">Novedades</h2>
+<a class="link-more" href="catalogo.html">Ver todo →</a>
+</div>
+<div class="product-grid" id="homeNovedades">
+<div class="product-skeleton"></div>
+<div class="product-skeleton"></div>
+<div class="product-skeleton"></div>
+<div class="product-skeleton"></div>
+</div>
+<p class="hint">Se muestran los últimos productos cargados en el catálogo.</p>
+</div>
+</section>
+<section class="section section-trust">
+<div class="container trust-strip">
+<div class="trust-item"><i class="fas fa-shield-alt"></i><div><strong>Compra segura</strong><span>Atención cercana</span></div></div>
+<div class="trust-item"><i class="fas fa-tags"></i><div><strong>Precio justo</strong><span>Calidad para el día a día</span></div></div>
+<div class="trust-item"><i class="fas fa-box-open"></i><div><strong>Stock real</strong><span>Actualizado en el momento</span></div></div>
+</div>
+</section>
+
+<!-- ===== QUIENES SOMOS ===== -->
+<section class="home-story">
+<div class="home-story-content">
+<h2>Quienes Somos</h2>
+<p>
+            En Tienda Nancy combinamos moda actual con un trato cercano. Seleccionamos prendas
+            versatiles y de excelente calidad para que te sientas bien en cualquier ocasion.
+        </p>
+<div class="story-features">
+<div class="story-item">
+<i class="fas fa-gem"></i>
+<h4>Calidad Real</h4>
+<p>Materiales duraderos y confeccion cuidada.</p>
+</div>
+<div class="story-item">
+<i class="fas fa-ruler-combined"></i>
+<h4>Fit Perfecto</h4>
+<p>Talles y cortes pensados para cada cuerpo.</p>
+</div>
+<div class="story-item">
+<i class="fas fa-heart"></i>
+<h4>Atencion Calida</h4>
+<p>Asesoramiento honesto y cercano.</p>
+</div>
+</div>
+</div>
+<div aria-label="Coleccion de ropa y accesorios" class="home-story-image" role="img">
+<div class="story-badge">Moda &amp; Estilo</div>
+</div>
+</section>
+<!-- ===== DESTACADOS ===== -->
+<section class="home-highlights">
+<h2>Destacados de la Tienda</h2>
+<div class="highlights-grid">
+<div class="highlight-card">
+<h3>Nuevos Ingresos</h3>
+<p>Prendas actuales con colores de temporada y cortes modernos.</p>
+</div>
+<div class="highlight-card">
+<h3>Combos y Sets</h3>
+<p>Looks armados para salir de la duda y vestir con confianza.</p>
+</div>
+<div class="highlight-card">
+<h3>Accesorios</h3>
+<p>Detalles que elevan tu outfit con un toque personal.</p>
+</div>
+</div>
+<a class="btn btn-dark" href="catalogo.html">Explorar Productos</a>
+</section>
+<!-- ===== CARRUSEL DE MARCAS ===== -->
+<section class="carousel">
+<div class="carousel-track">
+<img alt="marca" src="img/productos/1h.jpg"/>
+<img alt="marca" src="img/productos/2h.jpg"/>
+<img alt="marca" src="img/productos/3h.jpg"/>
+<img alt="marca" src="img/productos/4h.jpg"/>
+<img alt="47 Street" src="img/productos/47-street-vector-logo.png"/>
+<img alt="Cartujano" src="img/productos/cartujano.jpg"/>
+<img alt="Lacoste" src="img/productos/lacoste.jpeg"/>
+<img alt="Taverniti" src="img/productos/Taverniti.jpg"/>
+<!-- Duplicado para efecto infinito -->
+<img alt="marca" src="img/productos/1h.jpg"/>
+<img alt="marca" src="img/productos/2h.jpg"/>
+<img alt="marca" src="img/productos/3h.jpg"/>
+<img alt="marca" src="img/productos/4h.jpg"/>
+</div>
+</section>
+<!-- ===== CTA FINAL ===== -->
+<section class="home-cta">
+<div class="home-cta-inner">
+<h2>Elegi tu proximo look hoy</h2>
+<p>Te ayudamos a encontrar lo que buscas, rapido y sin vueltas.</p>
+<div class="hero-actions">
+<a class="btn" href="catalogo.html">Ir al Catalogo</a>
+<a class="btn btn-ghost" href="contacto.html">Escribirnos</a>
+</div>
+</div>
+</section>
+<!-- ===== FLOTANTE WHATSAPP ===== -->
+<a class="whatsapp-float" href="https://wa.me/5493757573218" target="_blank" title="Contactar por WhatsApp">
+<i class="fab fa-whatsapp"></i>
+</a>
+<!-- ===== SCRIPTS ===== -->
+<script src="Js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+</html>
